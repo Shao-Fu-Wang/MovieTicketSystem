@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:tf="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--    <link rel="stylesheet" th:href="@{/css/customer.css}" type="text/css">-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/customer.css}">
+    <title>About</title>
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" th:href="${'/customer/' + username + '/home'}">Movie Ticket System</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" th:href="${'/customer/' + username + '/home'}">首頁</a>
+                    <a class="nav-item nav-link" th:href="${'/customer/' + username + '/about'}">關於</a>
+                </div>
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" th:href="${'/customer/' + username + '/amend'}">更改個人資料</a>
+                    <a class="nav-item nav-link" href="/logout">登出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main role="main" class="container">
+    <div>
+        <h1>About Page</h1>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h2 class="card-title text-white">Welcome to the Movie Ticket Booking System!</h2>
+                            <p class="card-text">Hey there, I'm Michael and I'm thrilled to welcome you to our movie
+                                ticket booking system. If you're anything like me, you're probably feeling a little bit
+                                pessimistic about the world right now. But fear not, because we're here to provide you
+                                with some much-needed escapism.</p>
+                            <p class="card-text">Our movie ticket booking system allows you to easily purchase tickets
+                                to the latest blockbuster films, so you can sit back, relax, and forget about your
+                                troubles for a few hours. And let's be real, we could all use a break from reality every
+                                once in a while.</p>
+
+                            <p class="card-text">So whether you're in the mood for action, romance, or comedy, we've got
+                                you covered. Just pick your movie, select your seats, and get ready to be transported to
+                                another world. And who knows, maybe you'll even leave the theater feeling a little bit
+                                more optimistic about the future.</p>
+
+                            <p class="card-text">Thanks for choosing our movie ticket booking system, Michael. We're so
+                                glad to have you on board for the ride.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

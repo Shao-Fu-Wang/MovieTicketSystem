@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Placebook Login Page</title>
+  <link rel="stylesheet" th:href="@{/css/login.css}"/>
+</head>
+
+<body>
+  <div class="content">
+    <div class="flex-div">
+      <div class="name-content">
+        <h1 class="logo">Placebook</h1>
+        <p>Placebook<br>讓你和難搞的電影購票系統搏鬥<br>哇哭哇哭</p>
+      </div>
+      <form method="post">
+        <div class="field">
+          <input name="username" type="tel" placeholder="">
+          <label for="">用戶名稱</label>
+        </div>
+        <div class="field">
+          <input name="password" type="password" placeholder="">
+          <label for="">密碼</label>
+        </div>
+        <button class="login" onclick="login()">登入</button>
+        <button class="create-account" onclick="location.href='./signup'" type="button">建立新帳號</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript" th:src="@{/js/login.js}"></script>
+</body>
+
+</html>
