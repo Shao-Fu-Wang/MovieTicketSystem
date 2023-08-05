@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Placebook Signup Page</title>
+    <link rel="stylesheet" th:href="@{/css/signup.css}"/>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="title">Placebook 註冊
+            <p>快速又簡單</p>
+        </div>
+        <form onsubmit="return false;">
+            <div class="field">
+                <input type="text" id="name" required>
+                <label for="">姓名</label>
+            </div>
+            <div class="field">
+                <input type="tel" id="mobile_number" required>
+                <label for="">手機電話號碼</label>
+            </div>
+            <div class="field">
+                <input type="password" id="password" required>
+                <label for="">設定密碼</label>
+            </div>
+            <div class="field">
+                <input type="submit" onclick="createAccount()" value="註冊">
+            </div>
+            <div class="status" style="color:green">
+                <p></p>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" th:src="@{/js/signup.js}"></script>
+</body>
+
+</html>

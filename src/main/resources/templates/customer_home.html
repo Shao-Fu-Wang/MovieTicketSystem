@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:tf="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" th:href="@{/css/customer.css}" type="text/css">-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/customer.css}">
+    <title>Customer - Home</title>
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4" th:href="${'/customer/' + username + '/home'}">Movie Ticket System</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" th:href="${'/customer/' + username + '/home'}">首頁</a>
+                    <a class="nav-item nav-link" th:href="${'/customer/' + username + '/about'}">關於</a>
+                </div>
+                <!-- Navbar Right Side -->
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" th:href="${'/customer/' + username + '/amend'}">更改個人資料</a>
+                    <a class="nav-item nav-link" href="/logout">登出</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<main role="main" class="container">
+    <div class="container">
+        <h1 th:text="${'Welcome ' + username}"></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <article class="media content-section" th:each="movie : ${movies}">
+                <div class="media-body">
+                    <div class="article-metadata text-right">
+                        <a class="mr-2">❤️🧡💛💚🖤💜💙🤍🤎</a>
+                        <small class="text-muted" th:text="${movie.movieDatetime}"></small>
+                    </div>
+                    <div class="container text-left">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img th:src="${'/img/' + movie.movieImage}" height="100%" width="100%">
+                            </div>
+                            <div class="col-md-8">
+                                <h3 class="mt-3">
+                                    <a class="article-title" href="#" th:text="${movie.movieName}"></a>
+                                </h3>
+                                <p class="article-content" th:text="${movie.movieDetail}"></p>
+                                <div class="text-right movie-section" data-movie-id="">
+                                    <!-- Add a hidden input field to store the selected date -->
+                                    <input type="hidden" id="selected-date" name="selectedDate">
+                                    <!-- Modify the first dropdown menu to update the hidden input field with the selected date -->
+                                    <select class="btn btn-secondary dropdown-toggle form-select text-left showdate-list" onchange="updateSelectedDate(this)">
+                                        <option selected>選擇日期</option>
+                                        <th:block th:if="${movie.moviePlaySchedule.size() > 0}">
+                                            <th:block th:with="uniqueDates=${new java.util.HashSet()}">
+                                                <option th:each="showtime : ${movie.moviePlaySchedule}" th:if="${uniqueDates.add(showtime.showtimeDate)}" th:value="${showtime.showtimeDate}" th:text="${'日期: ' + showtime.showtimeDate}" th:attr="data-movie-id=${movie.movieId}"></option>
+                                            </th:block>
+                                        </th:block>
+                                    </select>
+                                    <!-- Modify the second dropdown menu to filter the available time slots based on the selected date -->
+                                    <select class="btn btn-secondary dropdown-toggle form-select text-left showtime-list" onchange="updateSelectedTimeslot(this)" disabled>
+                                        <option selected>選擇時段</option>
+                                        <th:block th:each="showtime : ${movie.moviePlaySchedule}">
+                                            <option th:if="${movie.moviePlaySchedule.size() > 0}" th:value="${showtime.showtimeSlot}" th:text="${'時段: '+showtime.showtimeSlot}" th:attr="data-date=${showtime.showtimeDate}"></option>
+                                        </th:block>
+                                    </select>
+                                    <!-- Add a JavaScript function to update the hidden input field with the selected date -->
+                                    <script>
+                                    function updateSelectedDate(select) {
+                                      var selectedDate = select.value;
+                                      console.log('Selected date:', selectedDate);
+                                      // Find the parent movie section
+                                      var movieSection = select.closest('.movie-section');
+                                      var nextBtn = movieSection.querySelector('.btn-primary');
+                                      // Reset the second button if the selected date is changed
+                                      var showtimeList = movieSection.querySelector('.showtime-list');
+                                      if (selectedDate !== showtimeList.dataset.selectedDate) {
+                                        showtimeList.selectedIndex = 0;
+                                        showtimeList.disabled = true;
+                                        nextBtn.disabled = true;
+                                      }
+                                      // Filter the available time slots based on the selected date
+                                      if (selectedDate !== '選擇日期') {
+                                        var showtimeOptions = showtimeList.querySelectorAll('option');
+                                        for (var i = 0; i < showtimeOptions.length; i++) {
+                                          var showtimeDate = showtimeOptions[i].getAttribute('data-date');
+                                          if (showtimeDate === selectedDate) {
+                                            showtimeOptions[i].style.display = 'block';
+                                          } else {
+                                            showtimeOptions[i].style.display = 'none';
+                                          }
+                                        }
+                                        // Enable the second button for the selected movie
+                                        showtimeList.disabled = false;
+                                      } else {
+                                        // Reset the second button for the selected movie
+                                        showtimeList.selectedIndex = 0;
+                                        showtimeList.disabled = true;
+                                      }
+                                      // Update the selected date in the hidden input field
+                                      document.getElementById('selected-date').value = selectedDate;
+                                      // Update the data-movie-id attribute of the movie section
+                                      var movieId = select.options[select.selectedIndex].dataset.movieId;
+                                      movieSection.dataset.movieId = movieId;
+                                      console.log("updated datamovieid", movieSection.dataset.movieId);
+                                    }
+
+                                    function updateSelectedTimeslot(select) {
+                                      var selectedTimeslot = select.value;
+                                      console.log('Selected timeslot:', selectedTimeslot);
+                                      // Find the parent movie section
+                                      var movieSection = select.closest('.movie-section');
+                                      // Get the selected date from the hidden input field
+                                      var selectedDate = document.getElementById('selected-date').value;
+                                      // Filter the available time slots based on the selected date
+                                      if (selectedTimeslot !== '選擇時段') {
+                                        var showtimeList = movieSection.querySelector('.showtime-list');
+                                        var showtimeOptions = showtimeList.querySelectorAll('option');
+                                        showtimeList.disabled = false;
+                                      } else {
+                                        // Reset the second button for the selected movie
+                                        var showtimeList = movieSection.querySelector('.showtime-list');
+                                        showtimeList.selectedIndex = 0;
+                                        showtimeList.disabled = true;
+                                      }
+                                      // Update the data-movie-id attribute of the movie section
+                                      var movieId = select.options[select.selectedIndex].dataset.movieId;
+                                      movieSection.dataset.movieId = movieId;
+                                      console.log("updated datamovieid", movieSection.dataset.movieId);
+                                      // Get a reference to the "下一步" button for the selected movie section
+                                      var nextBtn = movieSection.querySelector('.btn-primary');
+                                      // Enable or disable the "下一步" button based on whether both the date and time slot have been selected
+                                      if (selectedDate !== '選擇日期' && selectedTimeslot !== '選擇時段') {
+                                        nextBtn.disabled = false;
+                                      } else {
+                                        nextBtn.disabled = true;
+                                      }
+                                    }
+                                    </script>
+                                                <!-- Print the selected date in a <p> element -->
+                                                <!-- <p th:text="'Selected date: ' + ${#request.getParameter('selectedDate')}"></p> -->
+                                                <!-- Add the movie name and ID to the 下一步 button -->
+                                    <button class="btn btn-primary" href="#" role="button" onclick="goToSeatSelect(event, '${movie.movieName}')" disabled>下一步</button>
+                                                <!-- Add a JavaScript function to redirect to the seat selection page -->
+                                    <script>
+                                    function goToSeatSelect(event, movieName) {
+                                      // Prevent the default behavior of the button
+                                      event.preventDefault();
+                                      // Find the selected date and time slot from the dropdown menus
+                                      var movieSection = event.target.closest('.movie-section');
+                                      var movieId = movieSection.querySelector('.showdate-list option:checked').dataset.movieId;
+                                      var selectedDate = movieSection.querySelector('.showdate-list').value;
+                                      var selectedTimeSlot = movieSection.querySelector('.showtime-list').value;
+                                      console.log('movieId:', movieId);
+                                      console.log('selectedDate:', selectedDate);
+                                      console.log('selectedTimeSlot:', selectedTimeSlot);
+                                      // Redirect to the seat selection page with the selected movie, date, time, and movieId
+                                      window.location.href = './' + movieId + '/' + parseDate(selectedDate) + '/' + selectedTimeSlot + '/seatbooking';
+                                    }
+
+                                    function parseDate(dateStr) {
+                                      // Split the date string into month and day components
+                                      var dateComponents = dateStr.split('/');
+                                      // Convert the month component to a 2-digit string with leading zeros
+                                      var month = ('0' + dateComponents[0]).slice(-2);
+                                      // Convert the day component to a 2-digit string with leading zeros
+                                      var day = ('0' + dateComponents[1]).slice(-2);
+                                      // Construct the 4-digit date string
+                                      var parsedDate = month + day;
+                                      return parsedDate;
+                                    }
+                                  </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="col-md-4">
+            <div class="content-section">
+                <h3></h3>
+                <p class='text-muted'>華納威秀給你秀秀
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">
+                        <a class="mr-2" href="#">醉心上片</a>
+                    </li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="mr-2" href="#">最新公告</a>
+                    </li>
+                    <li class="list-group-item list-group-item-light">
+                        <a class="mr-2" href="#">特殊服務</a>
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+server:
+  port: 6969
+spring:
+  profiles:
+    active: dev
+---
+
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: L1fe1sbut@dre@m
+    url: jdbc:mariadb://127.0.0.1:3306/ticketsystem
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#  resources:
+#    static-locations: classpath:/static/img
+welcome:
+  message: Welcome to the movie ticket system
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env, beans"
+
+---
+
+spring:
+  profiles: qa
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: L1fe1sbut@dre@m
+    url: jdbc:mariadb://127.0.0.1:3306/ticketsystem-qa
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+welcome:
+  message: Welcome to the movie ticket system
+
+---
+
+spring:
+  profiles: prod
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: L1fe1sbut@dre@m
+    url: jdbc:mariadb://127.0.0.1:3306/ticketsystem-prod
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+welcome:
+  message: Welcome to the movie ticket system
