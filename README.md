@@ -1,6 +1,6 @@
 # Movie Ticket System
 
-Obviously this is a movie ticket system
+This is a movie ticket system, practice for spring boot.
 
 ## API Reference
 
