@@ -2,6 +2,10 @@
 
 This is a movie ticket system, practice for spring boot.
 
+## Database Relationship, WIP
+
+![DatabaseRelationship](https://github.com/Shao-Fu-Wang/MovieTicketSystem/assets/45915603/934905eb-d6f3-40eb-bfdc-97e3c9c5b88a)
+
 ## API Reference
 
 ### Customer
